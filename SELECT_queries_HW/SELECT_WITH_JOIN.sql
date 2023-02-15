@@ -15,14 +15,26 @@ JOIN song ON album.id=song.album_id
 GROUP BY album.name;
 
 --все исполнители, которые не выпустили альбомы в 2020 году
-SELECT artist.name FROM artist 
+SELECT DISTINCT artist.name FROM artist 
 JOIN artistalbum ON artist.id=artistalbum.artist_id 
 JOIN album ON artistalbum.album_id =album.id 
-WHERE year_of_issue NOT IN  ('2020')
-GROUP BY artist.name;
+WHERE artist.name NOT IN (SELECT artist.name FROM artist 
+	JOIN artistalbum ON artist.id=artistalbum.artist_id 
+	JOIN album ON artistalbum.album_id =album.id 
+	WHERE year_of_issue =  '2020' );
+
 
 --названия сборников, в которых присутствует исполнитель Enigma
-SELECT album.name FROM album
+SELECT DISTINCT collection.name FROM artist 
+JOIN artistalbum a ON artist.id=a.artist_id 
+JOIN song ON a.album_id=song.album_id 
+JOIN collectionsong c ON song.id=c.song_id 
+JOIN collection  ON c.collection_id =collection.id
+WHERE artist.name LIKE 'Enigma';
+
+
+
+album.name FROM album
 JOIN artistalbum a ON album.id=a.album_id 
 JOIN artist ON a.artist_id=artist.id 
 WHERE artist.name LIKE 'Enigma';
@@ -48,11 +60,23 @@ JOIN artistalbum a ON artist.id=a.artist_id
 JOIN song ON a.album_id=song.album_id 
 WHERE duration_sek <= (SELECT min(duration_sek) FROM song)
 GROUP BY artist.name;
+--В случае если убрать GROUP BY выходит ошибка:SQL Error [42803]: ОШИБКА: столбец "artist.name" должен фигурировать 
+--в предложении GROUP BY или использоваться в агрегатной функции
+
 
 --название альбомов, содержащих наименьшее количество треков
---С данным запросом возникла проблема, не получается корректно реализовать чтобы выводились только альбомы с min количеством
---треков. Требуется помощь по этому запросу.
-SELECT album.name,count(song.id)FROM album 
-JOIN song ON album.id=song.album_id  
-GROUP BY album.name
-ORDER BY count;
+
+SELECT album.name, count(song.id) FROM album
+JOIN song ON album.id=song.album_id
+GROUP BY album.id
+HAVING COUNT(song.name) = (SELECT COUNT(song.name) FROM album
+	JOIN song ON album.id=song.album_id
+	GROUP BY album.id
+	ORDER BY COUNT(song.name) 
+	LIMIT 1)
+ORDER BY album.name;
+
+
+
+
+
