@@ -33,12 +33,6 @@ JOIN collection  ON c.collection_id =collection.id
 WHERE artist.name LIKE 'Enigma';
 
 
-
-album.name FROM album
-JOIN artistalbum a ON album.id=a.album_id 
-JOIN artist ON a.artist_id=artist.id 
-WHERE artist.name LIKE 'Enigma';
-
 --название альбомов, в которых присутствуют исполнители более 1 жанра
 SELECT album.name, count(genre_id) FROM album
 JOIN artistalbum a ON album.id = a.album_id
@@ -54,6 +48,7 @@ SELECT song.name FROM song
 LEFT JOIN collectionsong c ON song.id=c.song_id
 WHERE c.song_id IS NULL;
 
+
 --исполнителя(-ей), написавшего самый короткий по продолжительности трек (теоретически таких треков может быть несколько)
 SELECT artist.name, min(duration_sek)FROM artist 
 JOIN artistalbum a ON artist.id=a.artist_id 
@@ -65,7 +60,6 @@ GROUP BY artist.name;
 
 
 --название альбомов, содержащих наименьшее количество треков
-
 SELECT album.name, count(song.id) FROM album
 JOIN song ON album.id=song.album_id
 GROUP BY album.id
