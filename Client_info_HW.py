@@ -4,9 +4,9 @@ conn=psycopg2.connect(database='client_info_db',user='postgres',password='111')
 cur=conn.cursor()
 conn.autocommit=True
 
-# cur.execute ("""
-#                   DROP TABLE client_phone;
-#                   DROP TABLE client_info;""")
+cur.execute ("""
+                  DROP TABLE client_phone;
+                  DROP TABLE client_info;""")
 
 def create_bd():
     cur.execute("""CREATE TABLE IF NOT EXISTS client_info (
@@ -87,14 +87,15 @@ def find_client_info():
         print(cur.fetchall())
     
 
-# print(create_bd()) 
-# print(add_client('Ivan','Ivanov','ivanov@gmail.com'))
-# print(add_client('Petr','Petrov','petrov@gmail.com'))
-# print(add_client('Vladimir','Sidorov','sidorov@gmail.com'))
-# print(add_phone())
-# print(update_client_info(1,'Ivan','Petrov','123@mail.ru','123456789'))       
-# print(delete_phone(1,123))
-# print(delete_client_info(1))
+print(create_bd()) 
+print(add_client('Ivan','Ivanov','ivanov@gmail.com'))
+print(add_client('Petr','Petrov','petrov@gmail.com'))
+print(add_client('Vladimir','Sidorov','sidorov@gmail.com'))
+print(add_phone())
+print(update_client_info(1,'Ivan','Petrov','123@mail.ru','123456789'))       
+print(delete_phone(1,123))
+print(delete_client_info(1))
 find_client_info()
+
 cur.close()
 conn.close()
