@@ -4,9 +4,9 @@ conn=psycopg2.connect(database='client_info_db',user='postgres',password='111')
 cur=conn.cursor()
 conn.autocommit=True
 
-# cur.execute ("""
-#                   DROP TABLE client_phone;
-#                   DROP TABLE client_info;""")
+cur.execute ("""
+                  DROP TABLE client_phone;
+                  DROP TABLE client_info;""")
 
 def create_bd():
     cur.execute("""CREATE TABLE IF NOT EXISTS client_info (
