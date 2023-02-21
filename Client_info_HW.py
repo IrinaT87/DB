@@ -85,16 +85,18 @@ def find_client_info():
         cur.execute("""SELECT * FROM client_info
         WHERE email=%s;""",(search,))
         print(cur.fetchall())
-    
+    else: 
+        print('Проверьте правильность введенных данных')
 
-# print(create_bd()) 
-# print(add_client('Ivan','Ivanov','ivanov@gmail.com'))
-# print(add_client('Petr','Petrov','petrov@gmail.com'))
-# print(add_client('Vladimir','Sidorov','sidorov@gmail.com'))
-# print(add_phone())
-# print(update_client_info(1,'Ivan','Petrov','123@mail.ru','123456789'))       
-# print(delete_phone(1,123))
-# print(delete_client_info(1))
+print(create_bd()) 
+print(add_client('Ivan','Ivanov','ivanov@gmail.com'))
+print(add_client('Petr','Petrov','petrov@gmail.com'))
+print(add_client('Vladimir','Sidorov','sidorov@gmail.com'))
+print(add_phone())
+print(update_client_info(1,'Ivan','Petrov','123@mail.ru','123456789'))       
+print(delete_phone(1,123))
+print(delete_client_info(1))
 find_client_info()
+
 cur.close()
 conn.close()
